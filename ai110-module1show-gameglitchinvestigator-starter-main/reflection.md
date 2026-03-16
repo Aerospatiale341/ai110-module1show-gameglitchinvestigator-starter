@@ -43,7 +43,7 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
 - What change did you make that finally gave the game a stable secret number?
 
----
+--- The secret number kept changing because Streamlit reruns the entire script from top to bottom every time the user interacts with the app (button clicks, text input, etc.). Without proper session state management, `random.randint()` was being called on every rerun, generating a new secret number. Streamlit's session state is like a "memory", it's a dictionary attached to each user session that remembers values between interactions. To a friend, I'd explain, "When you click a button, it reruns the entire code. Session state is how the app remembers things from the previous run so they don't reset." The fix was checking `if "secret" not in st.session_state:` before generating a new secret, ensuring it's only created once and then stored in session state.
 
 ## 5. Looking ahead: your developer habits
 
@@ -51,3 +51,5 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+--- I want to reuse the combination of automated testing (pytest) with manual testing—the pytest tests verified the logic was correct, but manual testing revealed UI/display issues that automated tests couldn't catch. This dual approach caught bugs like the hardcoded banner range that pure logic tests would have missed. Next time I work with AI, I would be more specific in asking about edge cases and state management upfront, rather than discovering issues through testing. This project taught me that AI-generated code is a starting point that requires thorough testing and careful code review. It can have logical flaws or overlook critical details like state management, even when the core logic appears sound.
